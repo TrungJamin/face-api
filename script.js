@@ -44,11 +44,11 @@ async function start() {
 }
 
 function loadLabeledImages() {
-  const labels = ["Tony Stark", "Tom Holland"];
+  const labels = ["Tony Stark"];
   return Promise.all(
     labels.map(async (label) => {
       const descriptions = [];
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 10; i++) {
         const img = await faceapi.fetchImage(
           `https://raw.githubusercontent.com/TrungJamin/face-api/master/labeled_images/${label}/${i}.jpg`
         );
