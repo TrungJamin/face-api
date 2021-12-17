@@ -11,8 +11,8 @@ async function start() {
   container.style.position = "relative";
   document.body.append(container);
   9;
-  const labeledFaceDescriptors = await loadLabeledImages();
-  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+  const labeledFaceDescriptors = await loadLabeledImages(); // 1 - 0.55 = 0.45
+  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6); // 0.5: độ không chính xác, 0.5: độ chính xác.
   let image;
   let canvas;
   document.body.append("Loaded");
@@ -48,7 +48,7 @@ function loadLabeledImages() {
   return Promise.all(
     labels.map(async (label) => {
       const descriptions = [];
-      for (let i = 1; i <= 3; i++) {
+      for (let i = 1; i <= 4; i++) {
         const img = await faceapi.fetchImage(
           `https://raw.githubusercontent.com/TrungJamin/face-api/master/labeled_images/${label}/${i}.jpg`
         );
