@@ -19,7 +19,11 @@ async function start() {
   imageUpload.addEventListener("change", async () => {
     if (image) image.remove();
     if (canvas) canvas.remove();
-    image = await faceapi.bufferToImage(imageUpload.files[0]);
+    console.log("imageUpload: ", imageUpload);
+    console.log("imageUpload.files[0]: ", imageUpload.files[0]);
+
+    image = await faceapi.bufferToImage(imageUpload.files[0]); // image element with "src=base64"
+    console.log("image: ", image);
     container.append(image);
     canvas = faceapi.createCanvasFromMedia(image);
     container.append(canvas);
@@ -29,10 +33,16 @@ async function start() {
       .detectAllFaces(image)
       .withFaceLandmarks()
       .withFaceDescriptors();
+    console.log("detections: ", detections);
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
-    const results = resizedDetections.map((d) =>
-      faceMatcher.findBestMatch(d.descriptor)
-    );
+    const results = resizedDetections.map((d) => {
+      console.log("descriptor: ", d);
+      console.log(
+        " faceMatcher.findBestMatch(d.descriptor): ",
+        faceMatcher.findBestMatch(d.descriptor)
+      );
+      return faceMatcher.findBestMatch(d.descriptor);
+    });
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box;
       const drawBox = new faceapi.draw.DrawBox(box, {
@@ -44,7 +54,7 @@ async function start() {
 }
 
 function loadLabeledImages() {
-  const labels = ["Tony Stark"];
+  const labels = ["TruongThanhHuy, TruongVanNam"];
   return Promise.all(
     labels.map(async (label) => {
       const descriptions = [];
